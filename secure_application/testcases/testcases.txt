@@ -1,0 +1,58 @@
+PASSWORD MANAGER - TEST CASES
+Group 9
+
+TC01 - Valid Login
+Input:
+Username: admin
+Password: admin123
+Expected:
+Login successful.
+
+TC02 - Invalid Login
+Input:
+Username: test
+Password: test
+Expected:
+Login failed.
+
+TC03 - Add Password
+Input:
+Website: gmail.com
+Username: pooja@gmail.com
+Password: Gmail123
+Expected:
+Password saved successfully.
+
+TC04 - View Passwords
+Expected:
+Saved website, username and password are displayed.
+
+TC05 - Search Password
+Input:
+gmail.com
+Expected:
+Gmail credentials are displayed.
+
+TC06 - Delete Password
+Input:
+github.com
+Expected:
+Password deleted successfully.
+
+TC07 - Hardcoded Credentials
+Action:
+Inspect source code.
+Expected:
+ADMIN_USERNAME and ADMIN_PASSWORD are directly visible.
+
+TC08 - Information Leakage
+Action:
+Enter incorrect login credentials.
+Expected:
+Application reveals valid username and password.
+
+TC09 - Insecure Storage
+Action:
+Open outputs/passwords.txt.
+Expected:
+Passwords are visible in plaintext.
