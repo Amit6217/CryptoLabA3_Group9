@@ -5,7 +5,8 @@ ADMIN_USERNAME = "admin"
 ADMIN_PASSWORD = "admin123"
 
 # File used to store passwords
-PASSWORD_FILE = "../outputs/passwords.txt"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STORAGE_FILE = os.path.join(BASE_DIR, "..", "outputs", "passwords.txt")
 
 def login():
     print("\n========== LOGIN ==========")
@@ -34,11 +35,11 @@ def add_password():
     password = input("Enter password: ")
 
     # Create outputs directory if it does not exist
-    os.makedirs("../outputs", exist_ok=True)
+    os.makedirs(os.path.dirname(STORAGE_FILE), exist_ok=True)
 
     # Vulnerability 3: Insecure Storage
     # Password is stored directly in plaintext.
-    with open(PASSWORD_FILE, "a") as file:
+    with open(STORAGE_FILE, "a") as file:
         file.write(f"{website},{username},{password}\n")
 
     print("Password saved successfully!")
@@ -46,11 +47,11 @@ def add_password():
 def view_passwords():
     print("\n========== SAVED PASSWORDS ==========")
 
-    if not os.path.exists(PASSWORD_FILE):
+    if not os.path.exists(STORAGE_FILE):
         print("No passwords found.")
         return
 
-    with open(PASSWORD_FILE, "r") as file:
+    with open(STORAGE_FILE, "r") as file:
         lines = file.readlines()
 
     if not lines:
@@ -69,13 +70,13 @@ def search_password():
 
     search = input("Enter website: ")
 
-    if not os.path.exists(PASSWORD_FILE):
+    if not os.path.exists(STORAGE_FILE):
         print("No passwords found.")
         return
 
     found = False
 
-    with open(PASSWORD_FILE, "r") as file:
+    with open(STORAGE_FILE, "r") as file:
         for line in file:
             website, username, password = line.strip().split(",", 2)
 
@@ -95,16 +96,16 @@ def delete_password():
 
     website_to_delete = input("Enter website: ")
 
-    if not os.path.exists(PASSWORD_FILE):
+    if not os.path.exists(STORAGE_FILE):
         print("No passwords found.")
         return
 
-    with open(PASSWORD_FILE, "r") as file:
+    with open(STORAGE_FILE, "r") as file:
         lines = file.readlines()
 
     deleted = False
 
-    with open(PASSWORD_FILE, "w") as file:
+    with open(STORAGE_FILE, "w") as file:
 
         for line in lines:
             website, username, password = line.strip().split(",", 2)

@@ -1,67 +1,6 @@
 # CryptoLabA3_Group9
 
-## Project Description
-CryptoLabA3_Group9 is our custom cryptanalysis toolkit developed for the Cryptography Laboratory course. Throughout this semester, we are building this project from the ground up to analyze, encrypt, and decipher various cryptographic algorithms. Currently, we have established the foundational architecture, set up our version control workflow with Git, and implemented a basic command-line interface with file analysis capabilities.
-
-## Instructor
-- Dr. Meenakshi Tripathi
-
-## Team Members
-- **2024UCP1562** - [AMIT KUMAR](https://github.com/Amit6217)
-- **2024UCP1717** - [GUTTULA POOJA](https://github.com/GUTTULAPOOJA)
-
-
-## Folder Structure
-```text
-CryptoLabA3_Group9/
-├── classical/
-├── attacks/
-├── math/
-├── modern/
-├── analysis/
-├── datasets/
-├── outputs/
-├── docs/
-├── tests/
-├── utils/
-├── main.py
-├── README.md
-└── requirements.txt
-```
-
-## How to Use
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Amit6217/CryptoLabA3_Group9.git
-   cd CryptoLabA3_Group9
-   ```
-2. **Run the toolkit:**
-   ```bash
-   python main.py
-   ```
-3. **Use the Menu:**
-   - The interactive CLI will display a menu. 
-   - Enter a number (`1-5`) to select an option (e.g., `4` to Analyze a text file from the `datasets/` folder).
-   - All activities are logged automatically in `logs/activity.log`.
-
-## Progress
-- **Week 1**: Established project foundation, folder structure, and Git repository. Implemented an interactive CLI menu with logging capabilities, and developed a dedicated file analysis module to process and extract text metrics from datasets.
-
-## Future Modules
-In upcoming weeks, we will be implementing:
-- **Classical Ciphers**: Caesar, Vigenère, Playfair, etc.
-- **Modern Ciphers**: DES, AES, RSA, etc.
-- **Cryptanalysis Attacks**: Brute force, frequency analysis, known-plaintext attacks, etc.
-- **Mathematical Utilities**: Modular arithmetic, prime generation, extended Euclidean algorithm, etc.
-
-
-
-lab 2
-
-# CryptoLabA3_Group9
-
-A Python-based **Cryptography Laboratory toolkit** developed for the Cryptography Laboratory course. The project is being developed incrementally to implement cryptographic algorithms, cryptanalysis techniques, mathematical utilities, file analysis, and security testing.
+A Python-based cryptography toolkit developed for the Cryptography Laboratory (22CPP307) course. The project is built incrementally across lab assignments, evolving from a foundational CLI framework into a security analysis and application development platform.
 
 ## Instructor
 
@@ -69,99 +8,111 @@ A Python-based **Cryptography Laboratory toolkit** developed for the Cryptograph
 
 ## Team Members
 
-* **2024UCP1562** — [AMIT KUMAR](https://github.com/Amit6217)
-* **2024UCP1717** — [GUTTULA POOJA](https://github.com/GUTTULAPOOJA)
+| Roll Number | Name | GitHub |
+|---|---|---|
+| 2024UCP1562 | AMIT KUMAR | [Amit6217](https://github.com/Amit6217) |
+| 2024UCP1717 | GUTTULA POOJA | [GUTTULAPOOJA](https://github.com/GUTTULAPOOJA) |
 
-## Project Structure
+## Repository Structure
 
 ```text
-CryptoLabA3_Group09/
-├── classical/              # Classical cryptography algorithms
-├── attacks/                # Cryptanalysis and attack techniques
-├── math/                   # Mathematical utilities
-├── modern/                 # Modern cryptographic algorithms
-├── analysis/               # Text and file analysis
-├── datasets/               # Sample input files
-├── outputs/                # Generated analysis results
-├── docs/                   # Documentation
-├── tests/                  # Testing and security experiments
-├── utils/                  # Utility modules
-├── logs/                   # Application logs
-├── main.py                 # Main CLI application
-├── requirements.txt        # Python dependencies
+CryptoLabA3_Group9/
+├── classical/
+├── modern/
+├── attacks/
+├── math/
+├── analysis/
+├── datasets/
+├── outputs/
+├── docs/
+├── tests/
+├── utils/
+├── logs/
+├── secure_application/
+│   ├── src/
+│   │   └── password_manager.py
+│   ├── sast/
+│   ├── reports/
+│   ├── testcases/
+│   ├── screenshots/
+│   ├── outputs/
+│   └── README.md
+├── main.py
+├── requirements.txt
 └── README.md
 ```
 
-## Current Features
+## Getting Started
 
-* Interactive command-line interface
-* File and text analysis
-* Character, word, line, and unique-character counting
-* Letter-frequency analysis
-* Activity logging
-* Sample datasets for analysis
-* Security testing using **Bandit**
-* Vulnerable-code examples for static security analysis
-
-## Bandit Security Analysis
-
-The repository includes a small vulnerable test program in `tests/vulnerable_test.py` to demonstrate common Python security issues.
-
-Bandit analysis results are stored in:
-
-```text
-outputs/bandit_results.txt
-outputs/bandit_results.json
-```
-
-The analysis identifies issues including hardcoded credentials, unsafe `assert` usage, weak MD5 hashing, shell command execution, and insecure random number generation.
-
-## Running the Project
-
-Clone the repository:
+**Clone and run:**
 
 ```bash
 git clone https://github.com/Amit6217/CryptoLabA3_Group9.git
 cd CryptoLabA3_Group9
-```
-
-Run the application:
-
-```bash
+pip install -r requirements.txt
 python main.py
 ```
 
-The CLI currently provides options for encryption, decryption, attacks, file analysis, and exiting the application.
-
-## Security Testing
-
-Install Bandit if required:
+**Run the Password Manager:**
 
 ```bash
-pip install bandit
-```
-Run the security scan:
-```bash
-bandit -r .
-```
-For JSON output:
-```bash
-bandit -r . -f json -o outputs/bandit_results.json
+cd secure_application/src
+python password_manager.py
 ```
 
-## Progress
+---
 
-* Project structure and Git repository setup
-* Interactive CLI and logging
-* File analysis module
-* Sample dataset integration
-* Modular code organization
-* Bandit-based security analysis
+## Project Progress
+
+### Assignment 1 — Project Foundation
+
+The first assignment focused on building the foundation of the CryptoLab toolkit. We created the Git repository, set up the modular folder structure, and developed an interactive menu-driven command-line interface with options for Encrypt, Decrypt, Attack, Analyze, and Exit.
+
+A file analysis module was implemented that reads text files from the `datasets/` folder and computes character count, word count, line count, unique characters, and letter frequency (a–z). Five sample text files were added to the datasets folder for testing and future use.
+
+An automatic activity logging system was built that records every menu selection with a timestamp into `logs/activity.log`. The entire codebase was organized into modular packages (`analysis/`, `utils/`) for maintainability.
+
+---
+
+### Assignment 2 — Static Application Security Testing (SAST)
+
+In the second assignment, we installed and configured **Bandit** — a Python SAST tool assigned to Group 9 — on the lab system (Ubuntu 20.04, Python 3.8.10).
+
+We created a deliberately vulnerable test program (`tests/vulnerable_test.py`) containing five security issues:
+
+- Hardcoded credentials (B105)
+- Use of `assert` for authentication (B101)
+- Weak MD5 hashing (B303)
+- Shell command injection via `subprocess.Popen` with `shell=True` (B602)
+- Insecure random number generation for security tokens (B311)
+
+Bandit successfully identified all vulnerabilities, producing 7 findings across Low, Medium, and High severity levels. Reports were saved in both text and JSON formats under `outputs/`. The complete terminal session was captured in `sast_lab_log.txt` using the Linux `script` command.
+
+---
+
+### Assignment 3 — Secure Application Development
+
+For the third assignment, we developed a **console-based Password Manager** application inside the `secure_application/` directory. The application assigned to Group 9 stores website credentials — usernames, website names, and passwords — in plaintext, as cryptography will be introduced in later assignments.
+
+**Features implemented:**
+
+- User login with authentication
+- Add, view, search, and delete password entries
+- Persistent storage in a plaintext file
+
+**Three intentional vulnerabilities were embedded from the assigned list:**
+
+1. **Hardcoded Credentials** — Admin username and password are hardcoded directly in the source code
+2. **Information Leakage** — On failed login, the application reveals the valid credentials in debug output
+3. **Insecure Storage** — Passwords are saved in plaintext without any encryption
+
+Bandit was run against the password manager and detected the hardcoded credentials (B105). The other two vulnerabilities — information leakage and insecure storage — are logic-level flaws that Bandit cannot detect through pattern matching, highlighting a key limitation of static analysis tools. Nine test cases were documented covering both functional behavior and vulnerability verification.
+
+---
 
 ## Future Work
 
-* Classical cipher implementations
-* Modern cryptographic algorithms
-* Cryptanalysis attacks
-* Mathematical cryptography utilities
-* Improved testing and documentation
+- Classical cipher implementations (Caesar, Vigenère, Playfair)
+- Modern cryptographic algorithms (DES, AES, RSA)
+- Cryptanalysis attacks (brute force, frequency analysis, known-plaintext)
+- Mathematical utilities (modular arithmetic, prime generation, extended Euclidean algorithm)
