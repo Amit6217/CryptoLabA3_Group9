@@ -1,0 +1,36 @@
+--- Testcase 1 ---
+Plaintext : HELLO WORLD
+Actual Key: 3
+Ciphertext: KHOOR ZRUOG
+
+--- Chi-Square Attack ---
+Predicted Key : 6
+Plaintext     : EBIIL TLOIA
+Score         : 24.008145453052773
+Chi-Square Correct? : False
+
+
+--- Testcase 2 ---
+Plaintext : ATTACK AT DAWN
+Actual Key: 5
+Ciphertext: FYYFHP FY IFBS
+
+--- Chi-Square Attack ---
+Predicted Key : 5
+Plaintext     : ATTACK AT DAWN
+Score         : 33.12269200156894
+Chi-Square Correct? : True
+
+
+--- Testcase 3 ---
+Plaintext : CRYPTOGRAPHY
+Actual Key: 10
+Ciphertext: MBIZDYQBKZRI
+
+--- Chi-Square Attack ---
+Predicted Key : 23
+Plaintext     : PELCGBTENCUL
+Score         : 30.104985067581563
+Chi-Square Correct? : False
+
+

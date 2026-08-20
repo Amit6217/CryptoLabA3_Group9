@@ -1,0 +1,5 @@
+# Sample testcases for shift_cipher_attack
+# Format: plaintext,key
+HELLO WORLD,3
+ATTACK AT DAWN,5
+CRYPTOGRAPHY,10
