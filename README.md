@@ -20,6 +20,20 @@ CryptoLabA3_Group9/
 ├── classical/
 ├── modern/
 ├── attacks/
+│   └── shift_cipher_attack/
+│       ├── src/
+│       │   ├── shift_cipher.py
+│       │   ├── chi_square_attack.py
+│       │   └── brute_force_dictionary.py
+│       ├── dictionary/
+│       │   └── english_words.txt
+│       ├── testcases/
+│       ├── outputs/
+│       ├── screenshots/
+│       ├── reports/
+│       │   └── Assignment_4_Report.pdf
+│       ├── main.py
+│       └── README.md
 ├── math/
 ├── analysis/
 ├── datasets/
@@ -58,6 +72,13 @@ python main.py
 ```bash
 cd secure_application/src
 python password_manager.py
+```
+
+**Run the Shift Cipher Cryptanalysis:**
+
+```bash
+cd attacks/shift_cipher_attack
+python main.py
 ```
 
 ---
@@ -110,9 +131,49 @@ Bandit was run against the password manager and detected the hardcoded credentia
 
 ---
 
+### Assignment 4 — Cryptanalysis of Shift Cipher
+
+In the fourth assignment, we implemented cryptanalysis of the Shift (Caesar) Cipher using two attack methods inside the `attacks/shift_cipher_attack/` directory.
+
+**Two attack algorithms were implemented:**
+
+1. **Chi-Square Statistical Analysis** — Compares the letter frequency distribution of each candidate decryption against known English letter frequencies using the chi-square statistic. The key producing the lowest χ² score (best fit to English) is selected.
+
+2. **Brute Force with Dictionary Scoring** — Decrypts the ciphertext with each of the 26 possible keys and counts how many words in the result match entries in an English dictionary file. The key with the highest word-match count is selected.
+
+---
+
+## Testing Vulnerabilities with Bandit
+
+Install Bandit:
+
+```bash
+pip install bandit
+```
+
+**Scan the vulnerable test program (Assignment 2):**
+
+```bash
+bandit -r tests/vulnerable_test.py
+```
+
+**Scan the Password Manager (Assignment 3):**
+
+```bash
+bandit -r secure_application/src/password_manager.py
+```
+
+**Export results to a file:**
+
+```bash
+bandit -r secure_application/src/password_manager.py -f txt -o secure_application/sast/bandit_report.txt
+bandit -r secure_application/src/password_manager.py -f json -o secure_application/reports/bandit_report.json
+```
+
+---
+
 ## Future Work
 
 - Classical cipher implementations (Caesar, Vigenère, Playfair)
 - Modern cryptographic algorithms (DES, AES, RSA)
-- Cryptanalysis attacks (brute force, frequency analysis, known-plaintext)
 - Mathematical utilities (modular arithmetic, prime generation, extended Euclidean algorithm)
