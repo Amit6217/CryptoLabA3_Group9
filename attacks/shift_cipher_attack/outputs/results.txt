@@ -33,19 +33,138 @@ Score         : 1
 Dictionary Correct? : True
 
 --- Result ---
-Plaintext : CRYPTOGRAPHY
+Plaintext : CRYPTOGRAPHY IS FUN
 Actual Key: 10
-Ciphertext: MBIZDYQBKZRI
+Ciphertext: MBIZDYQBKZRI SC PEX
 
 --- Chi-Square Attack ---
 Predicted Key : 23
-Plaintext     : PELCGBTENCUL
-Score         : 30.104985067581563
+Plaintext     : PELCGBTENCUL VF SHA
+Score         : 23.99120137189738
 Chi-Square Correct? : False
 
 --- Dictionary Attack ---
 Predicted Key : 10
-Plaintext     : CRYPTOGRAPHY
+Plaintext     : CRYPTOGRAPHY IS FUN
+Score         : 2
+Dictionary Correct? : True
+
+--- Result ---
+Plaintext : THIS IS A SIMPLE TEST
+Actual Key: 7
+Ciphertext: AOPZ PZ H ZPTWSL ALZA
+
+--- Chi-Square Attack ---
+Predicted Key : 7
+Plaintext     : THIS IS A SIMPLE TEST
+Score         : 21.81500367356548
+Chi-Square Correct? : True
+
+--- Dictionary Attack ---
+Predicted Key : 7
+Plaintext     : THIS IS A SIMPLE TEST
+Score         : 3
+Dictionary Correct? : True
+
+--- Result ---
+Plaintext : THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG
+Actual Key: 12
+Ciphertext: FTQ CGUOW NDAIZ RAJ VGYBE AHQD FTQ XMLK PAS
+
+--- Chi-Square Attack ---
+Predicted Key : 12
+Plaintext     : THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG
+Score         : 109.31861319821006
+Chi-Square Correct? : True
+
+--- Dictionary Attack ---
+Predicted Key : 12
+Plaintext     : THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG
+Score         : 2
+Dictionary Correct? : True
+
+--- Result ---
+Plaintext : MEET ME AT THE STATION
+Actual Key: 4
+Ciphertext: QIIX QI EX XLI WXEXMSR
+
+--- Chi-Square Attack ---
+Predicted Key : 4
+Plaintext     : MEET ME AT THE STATION
+Score         : 20.44211615758314
+Chi-Square Correct? : True
+
+--- Dictionary Attack ---
+Predicted Key : 4
+Plaintext     : MEET ME AT THE STATION
 Score         : 1
+Dictionary Correct? : True
+
+--- Result ---
+Plaintext : COMPUTER SECURITY IS IMPORTANT
+Actual Key: 8
+Ciphertext: KWUXCBMZ AMKCZQBG QA QUXWZBIVB
+
+--- Chi-Square Attack ---
+Predicted Key : 8
+Plaintext     : COMPUTER SECURITY IS IMPORTANT
+Score         : 22.79029885368579
+Chi-Square Correct? : True
+
+--- Dictionary Attack ---
+Predicted Key : 8
+Plaintext     : COMPUTER SECURITY IS IMPORTANT
+Score         : 3
+Dictionary Correct? : True
+
+--- Result ---
+Plaintext : INFORMATION SECURITY
+Actual Key: 15
+Ciphertext: XCUDGBPIXDC HTRJGXIN
+
+--- Chi-Square Attack ---
+Predicted Key : 15
+Plaintext     : INFORMATION SECURITY
+Score         : 12.471506992167171
+Chi-Square Correct? : True
+
+--- Dictionary Attack ---
+Predicted Key : 15
+Plaintext     : INFORMATION SECURITY
+Score         : 1
+Dictionary Correct? : True
+
+--- Result ---
+Plaintext : SHIFT CIPHER IS EASY TO UNDERSTAND
+Actual Key: 6
+Ciphertext: YNOLZ IOVNKX OY KGYE ZU ATJKXYZGTJ
+
+--- Chi-Square Attack ---
+Predicted Key : 6
+Plaintext     : SHIFT CIPHER IS EASY TO UNDERSTAND
+Score         : 9.619479130244668
+Chi-Square Correct? : True
+
+--- Dictionary Attack ---
+Predicted Key : 6
+Plaintext     : SHIFT CIPHER IS EASY TO UNDERSTAND
+Score         : 3
+Dictionary Correct? : True
+
+--- Result ---
+Plaintext : THIS IS A CRYPTOGRAPHY LAB
+Actual Key: 20
+Ciphertext: NBCM CM U WLSJNIALUJBS FUV
+
+--- Chi-Square Attack ---
+Predicted Key : 20
+Plaintext     : THIS IS A CRYPTOGRAPHY LAB
+Score         : 23.82797581027926
+Chi-Square Correct? : True
+
+--- Dictionary Attack ---
+Predicted Key : 20
+Plaintext     : THIS IS A CRYPTOGRAPHY LAB
+Score         : 3
 Dictionary Correct? : True
 
