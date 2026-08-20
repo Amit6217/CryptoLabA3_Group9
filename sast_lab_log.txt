@@ -1,0 +1,176 @@
+Script started on 2026-08-13 11:37:04+05:30 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="147" LINES="45"]
+]0;mnit@mnit-OptiPlex-5040: ~/amit/CryptoLabA3_Group09[01;32mmnit@mnit-OptiPlex-5040[00m:[01;34m~/amit/CryptoLabA3_Group09[00m$ lsb_release -a || cat /etc/os-release
+No LSB modules are available.
+Distributor ID:	Ubuntu
+Description:	Ubuntu 20.04.6 LTS
+Release:	20.04
+Codename:	focal
+]0;mnit@mnit-OptiPlex-5040: ~/amit/CryptoLabA3_Group09[01;32mmnit@mnit-OptiPlex-5040[00m:[01;34m~/amit/CryptoLabA3_Group09[00m$ python3 --version
+Python 3.8.10
+]0;mnit@mnit-OptiPlex-5040: ~/amit/CryptoLabA3_Group09[01;32mmnit@mnit-OptiPlex-5040[00m:[01;34m~/amit/CryptoLabA3_Group09[00m$ pip3 --version
+pip 25.0.1 from /home/mnit/.local/lib/python3.8/site-packages/pip (python 3.8)
+]0;mnit@mnit-OptiPlex-5040: ~/amit/CryptoLabA3_Group09[01;32mmnit@mnit-OptiPlex-5040[00m:[01;34m~/amit/CryptoLabA3_Group09[00m$ pip3 install bandit
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: bandit in /home/mnit/.local/lib/python3.8/site-packages (1.7.10)
+Requirement already satisfied: PyYAML>=5.3.1 in /usr/lib/python3/dist-packages (from bandit) (5.3.1)
+Requirement already satisfied: stevedore>=1.20.0 in /home/mnit/.local/lib/python3.8/site-packages (from bandit) (5.3.0)
+Requirement already satisfied: rich in /home/mnit/.local/lib/python3.8/site-packages (from bandit) (13.9.4)
+Requirement already satisfied: pbr>=2.0.0 in /home/mnit/.local/lib/python3.8/site-packages (from stevedore>=1.20.0->bandit) (7.0.3)
+Requirement already satisfied: markdown-it-py>=2.2.0 in /home/mnit/.local/lib/python3.8/site-packages (from rich->bandit) (3.0.0)
+Requirement already satisfied: pygments<3.0.0,>=2.13.0 in /home/mnit/.local/lib/python3.8/site-packages (from rich->bandit) (2.18.0)
+Requirement already satisfied: typing-extensions<5.0,>=4.0.0 in /home/mnit/.local/lib/python3.8/site-packages (from rich->bandit) (4.5.0)
+Requirement already satisfied: mdurl~=0.1 in /home/mnit/.local/lib/python3.8/site-packages (from markdown-it-py>=2.2.0->rich->bandit) (0.1.2)
+Requirement already satisfied: setuptools in /usr/lib/python3/dist-packages (from pbr>=2.0.0->stevedore>=1.20.0->bandit) (45.2.0)
+]0;mnit@mnit-OptiPlex-5040: ~/amit/CryptoLabA3_Group09[01;32mmnit@mnit-OptiPlex-5040[00m:[01;34m~/amit/CryptoLabA3_Group09[00m$ bandit --version
+bandit 1.7.10
+  python version = 3.8.10 (default, Mar 18 2025, 20:04:55) [GCC 9.4.0]
+]0;mnit@mnit-OptiPlex-5040: ~/amit/CryptoLabA3_Group09[01;32mmnit@mnit-OptiPlex-5040[00m:[01;34m~/amit/CryptoLabA3_Group09[00m$ cd tests
+]0;mnit@mnit-OptiPlex-5040: ~/amit/CryptoLabA3_Group09/tests[01;32mmnit@mnit-OptiPlex-5040[00m:[01;34m~/amit/CryptoLabA3_Group09/tests[00m$ touch vulnerable_test.py
+]0;mnit@mnit-OptiPlex-5040: ~/amit/CryptoLabA3_Group09/tests[01;32mmnit@mnit-OptiPlex-5040[00m:[01;34m~/amit/CryptoLabA3_Group09/tests[00m$ cd ..
+]0;mnit@mnit-OptiPlex-5040: ~/amit/CryptoLabA3_Group09[01;32mmnit@mnit-OptiPlex-5040[00m:[01;34m~/amit/CryptoLabA3_Group09[00m$ cat << 'EOF' > tests/vulnerable_test.py
+> import hashlib
+> import os
+> import subprocess
+> import random
+> 
+> # Vulnerability 1: Hardcoded Secret / Credential (Bandit B105)
+> SECRET_API_KEY = "sk_live_998877665544332211"
+> ADMIN_PASSWORD = "SuperSecretPassword123!"
+> 
+> def authenticate_user(user_input):
+>     # Vulnerability 2: Use of assert for security checking (Bandit B101)
+>     assert user_input == ADMIN_PASSWORD, "Authentication Failed!"
+>     print("[+] Access Granted")
+> 
+> def hash_user_data(data):
+>     # Vulnerability 3: Use of weak cryptographic hash MD5 (Bandit B303)
+>     return hashlib.md5(data.encode()).hexdigest()
+> 
+> def execute_system_command(user_filename):
+>     # Vulnerability 4: Unsafe shell command execution / Command Injection risk (Bandit B602)
+>     cmd = f"ls -la {user_filename}"
+>     subprocess.Popen(cmd, shell=True)
+> 
+> def generate_session_token():
+>     # Vulnerability 5: Standard pseudo-random generator unfit for crypto (Bandit B311)
+>     return str(random.randint(100000, 999999))
+> 
+> if __name__ == "__main__":
+>     print("Running Vulnerable Test Program...")
+>     authenticate_user("SuperSecretPassword123!")
+>     print("Hashed Data:", hash_user_data("sensitive_info"))
+>     generate_session_token()
+> EOF
+]0;mnit@mnit-OptiPlex-5040: ~/amit/CryptoLabA3_Group09[01;32mmnit@mnit-OptiPlex-5040[00m:[01;34m~/amit/CryptoLabA3_Group09[00m$ bandit -r tests/vulnerable_test.py
+[main]	INFO	profile include tests: None
+[main]	INFO	profile exclude tests: None
+[main]	INFO	cli include tests: None
+[main]	INFO	cli exclude tests: None
+[main]	INFO	running on Python 3.8.10
+[95mRun started:2026-08-13 06:12:22.415862[0m
+[95m
+Test results:[0m
+[94m>> Issue: [B404:blacklist] Consider possible security implications associated with the subprocess module.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/blacklists/blacklist_imports.html#b404-import-subprocess
+   Location: ./tests/vulnerable_test.py:3:0[0m
+2	import os
+3	import subprocess
+4	import random
+
+--------------------------------------------------
+[94m>> Issue: [B105:hardcoded_password_string] Possible hardcoded password: 'sk_live_998877665544332211'
+   Severity: Low   Confidence: Medium
+   CWE: CWE-259 (https://cwe.mitre.org/data/definitions/259.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/plugins/b105_hardcoded_password_string.html
+   Location: ./tests/vulnerable_test.py:7:17[0m
+6	# Vulnerability 1: Hardcoded Secret / Credential (Bandit B105)
+7	SECRET_API_KEY = "sk_live_998877665544332211"
+8	ADMIN_PASSWORD = "SuperSecretPassword123!"
+
+--------------------------------------------------
+[94m>> Issue: [B105:hardcoded_password_string] Possible hardcoded password: 'SuperSecretPassword123!'
+   Severity: Low   Confidence: Medium
+   CWE: CWE-259 (https://cwe.mitre.org/data/definitions/259.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/plugins/b105_hardcoded_password_string.html
+   Location: ./tests/vulnerable_test.py:8:17[0m
+7	SECRET_API_KEY = "sk_live_998877665544332211"
+8	ADMIN_PASSWORD = "SuperSecretPassword123!"
+9	
+
+--------------------------------------------------
+[94m>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/plugins/b101_assert_used.html
+   Location: ./tests/vulnerable_test.py:12:4[0m
+11	    # Vulnerability 2: Use of assert for security checking (Bandit B101)
+12	    assert user_input == ADMIN_PASSWORD, "Authentication Failed!"
+13	    print("[+] Access Granted")
+
+--------------------------------------------------
+[93m>> Issue: [B303:blacklist] Use of insecure MD2, MD4, MD5, or SHA1 hash function.
+   Severity: Medium   Confidence: High
+   CWE: CWE-327 (https://cwe.mitre.org/data/definitions/327.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/blacklists/blacklist_calls.html#b303-md5
+   Location: ./tests/vulnerable_test.py:17:11[0m
+16	    # Vulnerability 3: Use of weak cryptographic hash MD5 (Bandit B303)
+17	    return hashlib.md5(data.encode()).hexdigest()
+18	
+
+--------------------------------------------------
+[91m>> Issue: [B602:subprocess_popen_with_shell_equals_true] subprocess call with shell=True identified, security issue.
+   Severity: High   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/plugins/b602_subprocess_popen_with_shell_equals_true.html
+   Location: ./tests/vulnerable_test.py:22:4[0m
+21	    cmd = f"ls -la {user_filename}"
+22	    subprocess.Popen(cmd, shell=True)
+23	
+
+--------------------------------------------------
+[94m>> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+   Severity: Low   Confidence: High
+   CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/blacklists/blacklist_calls.html#b311-random
+   Location: ./tests/vulnerable_test.py:26:15[0m
+25	    # Vulnerability 5: Standard pseudo-random generator unfit for crypto (Bandit B311)
+26	    return str(random.randint(100000, 999999))
+27	
+
+--------------------------------------------------
+[95m
+Code scanned:[0m
+	Total lines of code: 21
+	Total lines skipped (#nosec): 0
+[95m
+Run metrics:[0m
+	Total issues (by severity):
+		Undefined: 0
+		Low: 5
+		Medium: 1
+		High: 1
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 2
+		High: 5
+[95mFiles skipped (0):[0m
+]0;mnit@mnit-OptiPlex-5040: ~/amit/CryptoLabA3_Group09[01;32mmnit@mnit-OptiPlex-5040[00m:[01;34m~/amit/CryptoLabA3_Group09[00m$ bandit -r tests/vulnerable_test.py -f txt -o outputs/bandit_results.txt
+[main]	INFO	profile include tests: None
+[main]	INFO	profile exclude tests: None
+[main]	INFO	cli include tests: None
+[main]	INFO	cli exclude tests: None
+[main]	INFO	running on Python 3.8.10
+[text]	INFO	Text output written to file: outputs/bandit_results.txt
+]0;mnit@mnit-OptiPlex-5040: ~/amit/CryptoLabA3_Group09[01;32mmnit@mnit-OptiPlex-5040[00m:[01;34m~/amit/CryptoLabA3_Group09[00m$ bandit -r tests/vulnerable_test.py -f json -o outputs/bandit_results.json
+[main]	INFO	profile include tests: None
+[main]	INFO	profile exclude tests: None
+[main]	INFO	cli include tests: None
+[main]	INFO	cli exclude tests: None
+[json]	INFO	JSON output written to file: outputs/bandit_results.json
+]0;mnit@mnit-OptiPlex-5040: ~/amit/CryptoLabA3_Group09[01;32mmnit@mnit-OptiPlex-5040[00m:[01;34m~/amit/CryptoLabA3_Group09[00m$ exit
+exit
+
+Script done on 2026-08-13 11:43:41+05:30 [COMMAND_EXIT_CODE="1"]

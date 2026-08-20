@@ -1,0 +1,91 @@
+Run started:2026-08-13 06:12:39.272766
+
+Test results:
+>> Issue: [B404:blacklist] Consider possible security implications associated with the subprocess module.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/blacklists/blacklist_imports.html#b404-import-subprocess
+   Location: ./tests/vulnerable_test.py:3:0
+2	import os
+3	import subprocess
+4	import random
+
+--------------------------------------------------
+>> Issue: [B105:hardcoded_password_string] Possible hardcoded password: 'sk_live_998877665544332211'
+   Severity: Low   Confidence: Medium
+   CWE: CWE-259 (https://cwe.mitre.org/data/definitions/259.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/plugins/b105_hardcoded_password_string.html
+   Location: ./tests/vulnerable_test.py:7:17
+6	# Vulnerability 1: Hardcoded Secret / Credential (Bandit B105)
+7	SECRET_API_KEY = "sk_live_998877665544332211"
+8	ADMIN_PASSWORD = "SuperSecretPassword123!"
+
+--------------------------------------------------
+>> Issue: [B105:hardcoded_password_string] Possible hardcoded password: 'SuperSecretPassword123!'
+   Severity: Low   Confidence: Medium
+   CWE: CWE-259 (https://cwe.mitre.org/data/definitions/259.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/plugins/b105_hardcoded_password_string.html
+   Location: ./tests/vulnerable_test.py:8:17
+7	SECRET_API_KEY = "sk_live_998877665544332211"
+8	ADMIN_PASSWORD = "SuperSecretPassword123!"
+9	
+
+--------------------------------------------------
+>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/plugins/b101_assert_used.html
+   Location: ./tests/vulnerable_test.py:12:4
+11	    # Vulnerability 2: Use of assert for security checking (Bandit B101)
+12	    assert user_input == ADMIN_PASSWORD, "Authentication Failed!"
+13	    print("[+] Access Granted")
+
+--------------------------------------------------
+>> Issue: [B303:blacklist] Use of insecure MD2, MD4, MD5, or SHA1 hash function.
+   Severity: Medium   Confidence: High
+   CWE: CWE-327 (https://cwe.mitre.org/data/definitions/327.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/blacklists/blacklist_calls.html#b303-md5
+   Location: ./tests/vulnerable_test.py:17:11
+16	    # Vulnerability 3: Use of weak cryptographic hash MD5 (Bandit B303)
+17	    return hashlib.md5(data.encode()).hexdigest()
+18	
+
+--------------------------------------------------
+>> Issue: [B602:subprocess_popen_with_shell_equals_true] subprocess call with shell=True identified, security issue.
+   Severity: High   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/plugins/b602_subprocess_popen_with_shell_equals_true.html
+   Location: ./tests/vulnerable_test.py:22:4
+21	    cmd = f"ls -la {user_filename}"
+22	    subprocess.Popen(cmd, shell=True)
+23	
+
+--------------------------------------------------
+>> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+   Severity: Low   Confidence: High
+   CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/blacklists/blacklist_calls.html#b311-random
+   Location: ./tests/vulnerable_test.py:26:15
+25	    # Vulnerability 5: Standard pseudo-random generator unfit for crypto (Bandit B311)
+26	    return str(random.randint(100000, 999999))
+27	
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 21
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 5
+		Medium: 1
+		High: 1
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 2
+		High: 5
+Files skipped (0):
