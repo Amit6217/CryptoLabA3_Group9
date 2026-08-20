@@ -5,8 +5,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 from src.shift_cipher import decrypt,encrypt
 from src.brute_force_dictionary import load_words,dictionary_attack
 
-text = "HELLO WORLD"
-key = 3
+text = input("Enter the text: ")
+key = int(input("Enter the key (0-25): "))
 
 cipher = encrypt(text, key)
 print("Cipher:", cipher)
