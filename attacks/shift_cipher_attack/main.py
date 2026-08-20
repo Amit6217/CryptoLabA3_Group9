@@ -1,3 +1,7 @@
+import sys
+import os
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 from src.shift_cipher import decrypt,encrypt
 from src.brute_force_dictionary import load_words,dictionary_attack
 
