@@ -1,4 +1,4 @@
---- Testcase 1 ---
+--- Result ---
 Plaintext : HELLO WORLD
 Actual Key: 3
 Ciphertext: KHOOR ZRUOG
@@ -9,8 +9,13 @@ Plaintext     : EBIIL TLOIA
 Score         : 24.008145453052773
 Chi-Square Correct? : False
 
+--- Dictionary Attack ---
+Predicted Key : 3
+Plaintext     : HELLO WORLD
+Score         : 2
+Dictionary Correct? : True
 
---- Testcase 2 ---
+--- Result ---
 Plaintext : ATTACK AT DAWN
 Actual Key: 5
 Ciphertext: FYYFHP FY IFBS
@@ -21,8 +26,13 @@ Plaintext     : ATTACK AT DAWN
 Score         : 33.12269200156894
 Chi-Square Correct? : True
 
+--- Dictionary Attack ---
+Predicted Key : 5
+Plaintext     : ATTACK AT DAWN
+Score         : 1
+Dictionary Correct? : True
 
---- Testcase 3 ---
+--- Result ---
 Plaintext : CRYPTOGRAPHY
 Actual Key: 10
 Ciphertext: MBIZDYQBKZRI
@@ -33,4 +43,9 @@ Plaintext     : PELCGBTENCUL
 Score         : 30.104985067581563
 Chi-Square Correct? : False
 
+--- Dictionary Attack ---
+Predicted Key : 10
+Plaintext     : CRYPTOGRAPHY
+Score         : 1
+Dictionary Correct? : True
 

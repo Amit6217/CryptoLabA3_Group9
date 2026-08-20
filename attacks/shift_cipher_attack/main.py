@@ -2,6 +2,7 @@ import os
 import re
 from src.shift_cipher import encrypt
 from src.chi_square_attack import chi_square_attack
+from src.brute_force_dictionary import load_words, dictionary_attack
 
 
 BASE_DIR = os.path.dirname(__file__)
@@ -18,61 +19,87 @@ def ensure_dirs_and_sample():
         sample = [
             "HELLO WORLD,3",
             "ATTACK AT DAWN,5",
-            "CRYPTOGRAPHY,10"
+            "CRYPTOGRAPHY,10",
         ]
         with open(TESTCASE_FILE, "w") as f:
-            f.write("# Format: plaintext, key (one per line)\n")
+            f.write("# Format: plaintext,key\n")
             for line in sample:
                 f.write(line + "\n")
-        print(f"Generated sample testcases at {TESTCASE_FILE}")
 
 
-def run_case(plaintext, actual_key, out_handle=None, idx=None):
+def format_result(plaintext, actual_key, ciphertext, chi_key, chi_plaintext, chi_score,
+                  dict_key=None, dict_plaintext="", dict_score=None, idx=None):
+    header = f"--- Testcase {idx} ---" if idx is not None else "--- Result ---"
+    parts = [
+        header,
+        f"Plaintext : {plaintext}",
+        f"Actual Key: {actual_key}",
+        f"Ciphertext: {ciphertext}",
+        "",
+        "--- Chi-Square Attack ---",
+        f"Predicted Key : {chi_key}",
+        f"Plaintext     : {chi_plaintext}",
+        f"Score         : {chi_score}",
+        f"Chi-Square Correct? : {chi_key == actual_key}",
+        "",
+        "--- Dictionary Attack ---",
+        f"Predicted Key : {dict_key}",
+        f"Plaintext     : {dict_plaintext}",
+        f"Score         : {dict_score}",
+        f"Dictionary Correct? : {dict_key == actual_key if dict_key is not None else False}",
+        "",
+    ]
+    return "\n".join(parts)
+
+
+def run_case(plaintext, actual_key):
     ciphertext = encrypt(plaintext, actual_key)
     chi_key, chi_plaintext, chi_score = chi_square_attack(ciphertext)
+    dict_words_path = os.path.join(BASE_DIR, "dictionary", "english_words.txt")
+    if os.path.exists(dict_words_path):
+        words = load_words(dict_words_path)
+        dict_key, dict_plaintext, dict_score = dictionary_attack(ciphertext, words)
+    else:
+        dict_key = None
+        dict_plaintext = ""
+        dict_score = None
 
-    lines = []
-    header = f"--- Testcase {idx} ---" if idx is not None else "--- Result ---"
-    lines.append(header)
-    lines.append(f"Plaintext : {plaintext}")
-    lines.append(f"Actual Key: {actual_key}")
-    lines.append(f"Ciphertext: {ciphertext}")
-    lines.append("")
-    lines.append("--- Chi-Square Attack ---")
-    lines.append(f"Predicted Key : {chi_key}")
-    lines.append(f"Plaintext     : {chi_plaintext}")
-    lines.append(f"Score         : {chi_score}")
-    lines.append(f"Chi-Square Correct? : {chi_key == actual_key}")
-    lines.append("\n")
+    return format_result(plaintext, actual_key, ciphertext, chi_key, chi_plaintext, chi_score,
+                         dict_key, dict_plaintext, dict_score)
 
-    output = "\n".join(lines)
 
-    print(output)
-
-    if out_handle:
-        out_handle.write(output + "\n")
+def choose_mode():
+    print("Choose input mode:")
+    print("  1) Terminal (single test)")
+    print("  2) Testcases folder (batch)")
+    choice = input("Enter 1 or 2 [1]: ").strip()
+    if choice == "":
+        return 1
+    if choice not in {"1", "2"}:
+        print("Invalid choice; defaulting to 1.")
+        return 1
+    return int(choice)
 
 
 def main():
     ensure_dirs_and_sample()
 
-    mode = input("Select mode ('terminal' or 'testcases') [terminal]: ").strip().lower()
-    if mode == "":
-        mode = "terminal"
+    mode = choose_mode()
 
-    if mode == "terminal":
+    if mode == 1:
         plaintext = input("Enter plaintext: ")
         try:
             actual_key = int(input("Enter key (0-25): "))
         except ValueError:
-            print("Invalid key. Must be an integer 0-25.")
+            print("Invalid key. Must be integer 0-25.")
             return
 
-        run_case(plaintext, actual_key)
+        result = run_case(plaintext, actual_key)
+        print(result)
 
-    elif mode == "testcases":
+    else:
         if not os.path.exists(TESTCASE_FILE):
-            print("No testcase file found; a sample was generated.")
+            print("No testcase file found; a sample was created.")
 
         with open(TESTCASE_FILE) as f:
             lines = [l.strip() for l in f if l.strip() and not l.strip().startswith("#")]
@@ -95,12 +122,10 @@ def main():
                     print(f"Skipping line with invalid key: {line}")
                     continue
 
-                run_case(plaintext, actual_key, out_handle=out, idx=i)
+                out.write(run_case(plaintext, actual_key))
+                out.write("\n")
 
         print(f"Wrote results to {output_path}")
-
-    else:
-        print("Unknown mode. Choose 'terminal' or 'testcases'.")
 
 
 if __name__ == "__main__":
