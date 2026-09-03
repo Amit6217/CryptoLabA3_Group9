@@ -12,4 +12,6 @@ vector<string> extract_words(string text);
 
 void word_frequency_analysis(string ciphertext);
 
+void pattern_analysis(string ciphertext);
+
 #endif

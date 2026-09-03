@@ -1,42 +1,51 @@
-Perfectly Secret Encryption 39
-2.8 Let Π denote the Vigen`ere cipher where the message space consists of all
-3-character strings (over the English alphabet), and the key is generated
-by first choosing the period t uniformly from {1, 2, 3} and then letting
+Perfectly Secret Encryption
+
+Let Pi denote the Vigenere cipher where the message space consists of all
+three character strings over the English alphabet, and the key is generated
+by first choosing the period t uniformly from one, two, three and then letting
 the key be a uniform string of length t.
-(a) Define A as follows: A outputs m0 = aab and m1 = abb. When
-given a ciphertext c, it outputs 0 if the first character of c is the
-same as the second character of c, and outputs 1 otherwise. Com-
-pute Pr[PrivKeav
-A,Π = 1].
-(b) Construct and analyze an adversary A′ for which Pr[PrivKeav
-A′ ,Π = 1]
-is greater than your answer from part (a).
-2.9 In this exercise, we look at different conditions under which the shift,
-mono-alphabetic substitution, and Vigen`ere ciphers are perfectly secret:
-(a) Prove that if only a single character is encrypted, then the shift
+
+Define A as follows. A outputs m zero equals aab and m one equals abb. When
+given a ciphertext c, it outputs zero if the first character of c is the
+same as the second character of c, and outputs one otherwise. Compute the
+probability that the private key experiment with adversary A and scheme Pi
+equals one.
+
+Construct and analyze an adversary A prime for which the probability that
+the private key experiment with A prime and Pi equals one is greater than
+your answer from part a.
+
+In this exercise, we look at different conditions under which the shift,
+mono alphabetic substitution, and Vigenere ciphers are perfectly secret.
+
+Prove that if only a single character is encrypted, then the shift
 cipher is perfectly secret.
-(b) What is the largest message space M for which the mono-alphabetic
-substitution cipher provides perfect secrecy?
-(c) Prove that the Vigen`ere cipher using (fixed) period t is perfectly
+
+What is the largest message space M for which the mono alphabetic
+substitution cipher provides perfect secrecy.
+
+Prove that the Vigenere cipher using a fixed period t is perfectly
 secret when used to encrypt messages of length t.
 Reconcile this with the attacks shown in the previous chapter.
-2.10 Prove that a scheme satisfying Definition 2.5 must have |K| ≥ |M|
-without using Lemma 2.4. Specifically, let Π be an arbitrary encryption
-scheme with |K| < |M|. Show an A for which Pr [PrivKeav
-A,Π = 1] > 1
-2 .
+
+Prove that a scheme satisfying Definition two point five must have the
+size of the key space greater than or equal to the size of the message space
+without using Lemma two point four. Specifically, let Pi be an arbitrary encryption
+scheme with the key space smaller than the message space. Show an adversary A
+for which the probability of success is greater than one half.
 Hint: It may be easier to let A be randomized.
-2.11 Assume we require only that an encryption scheme (Gen, Enc, Dec) with
-message space M satisfy the following: For all m ∈ M, we have
-Pr[DecK (EncK (m)) = m] ≥ 2−t. (This probability is taken over choice
-of the key as well as any randomness used during encryption.) Show
-that perfect secrecy can be achieved with |K| < |M| when t ≥ 1. Prove
-a lower bound on the size of K in terms of t.
-2.12 Let ε ≥ 0 be a constant. Say an encryption scheme is ε-perfectly secret
-if for every adversary A it holds that
-Pr [PrivKeav
-A,Π = 1] ≤ 1
-2 + ε .
-(Compare to Definition 2.5.) Show that ε-perfect secrecy can be achieved
-with |K| < |M| when ε > 0. Prove a lower bound on the size of K in
-terms of ε.
+
+Assume we require only that an encryption scheme with generation, encryption,
+and decryption algorithms along with message space M satisfy the following.
+For all messages m in M, we have the probability that decrypting the encryption
+of m recovers m is at least two to the power of negative t. This probability is
+taken over choice of the key as well as any randomness used during encryption.
+Show that perfect secrecy can be achieved with a smaller key space when t is at
+least one. Prove a lower bound on the size of K in terms of t.
+
+Let epsilon be greater than or equal to zero and be a constant. Say an encryption
+scheme is epsilon perfectly secret if for every adversary A it holds that the
+probability of success in the private key experiment is at most one half plus epsilon.
+Compare to Definition two point five. Show that epsilon perfect secrecy can be achieved
+with a smaller key space when epsilon is greater than zero. Prove a lower bound on the
+size of K in terms of epsilon.

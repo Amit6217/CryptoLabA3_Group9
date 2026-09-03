@@ -1,6 +1,6 @@
 # CryptoLabA3_Group9
 
-A Python-based cryptography toolkit developed for the Cryptography Laboratory (22CPP307) course. The project is built incrementally across lab assignments, evolving from a foundational CLI framework into a security analysis and application development platform.
+A cryptography toolkit developed for the Cryptography Laboratory (22CPP307) course. The project is built incrementally across lab assignments, evolving from a foundational CLI framework into a security analysis and cryptanalysis platform. Implementations use Python and C++.
 
 ## Instructor
 
@@ -33,6 +33,24 @@ CryptoLabA3_Group9/
 │       ├── reports/
 │       │   └── Assignment_4_Report.pdf
 │       ├── main.py
+│       └── README.md
+│   └── substitution_cipher_attack/
+│       ├── src/
+│       │   ├── main.cpp
+│       │   ├── cipher.cpp
+│       │   ├── analysis.cpp
+│       │   ├── substitution.cpp
+│       │   └── utils.cpp
+│       ├── include/
+│       │   ├── cipher.h
+│       │   ├── analysis.h
+│       │   ├── substitution.h
+│       │   └── utils.h
+│       ├── testcases/
+│       ├── outputs/
+│       ├── screenshots/
+│       ├── reports/
+│       │   └── Assignment_5_Report.pdf
 │       └── README.md
 ├── math/
 ├── analysis/
@@ -79,6 +97,14 @@ python password_manager.py
 ```bash
 cd attacks/shift_cipher_attack
 python main.py
+```
+
+**Run the Substitution Cipher Cryptanalysis (C++):**
+
+```bash
+cd attacks/substitution_cipher_attack
+g++ -o substitution_cipher src/main.cpp src/cipher.cpp src/analysis.cpp src/utils.cpp src/substitution.cpp -std=c++17
+./substitution_cipher
 ```
 
 ---
@@ -140,6 +166,25 @@ In the fourth assignment, we implemented cryptanalysis of the Shift (Caesar) Cip
 1. **Chi-Square Statistical Analysis** — Compares the letter frequency distribution of each candidate decryption against known English letter frequencies using the chi-square statistic. The key producing the lowest χ² score (best fit to English) is selected.
 
 2. **Brute Force with Dictionary Scoring** — Decrypts the ciphertext with each of the 26 possible keys and counts how many words in the result match entries in an English dictionary file. The key with the highest word-match count is selected.
+
+---
+
+### Assignment 5 — Monoalphabetic Substitution Cipher Cryptanalysis
+
+In the fifth assignment, we implemented the **Monoalphabetic Substitution Cipher** and its cryptanalysis using frequency and pattern analysis in **C++** inside the `attacks/substitution_cipher_attack/` directory.
+
+The plaintext was taken from page 39 of *"Introduction to Modern Cryptography"* by Katz and Lindell (Group 9 = 9 + 30).
+
+**Six required functions were implemented:**
+
+1. **`frequency_analysis()`** — Counts each ciphertext letter's frequency, displays in descending order with percentages, identifies the most frequent letters
+2. **`word_frequency_analysis()`** — Analyzes one-letter, two-letter, three-letter, and repeated words in the ciphertext
+3. **`pattern_analysis()`** — Extracts letter patterns from words (e.g., "HELLO" becomes "ABCCD"), detects doubled letters, groups words by pattern structure
+4. **`apply_substitution()`** — Applies a partial mapping to the ciphertext, showing '?' for unknown letters
+5. **`display_partial_plaintext()`** — Shows cipher and partial plaintext side-by-side with the current mapping table
+6. **`verify_solution()`** — Re-encrypts the recovered plaintext with the recovered key and confirms it matches the original ciphertext
+
+**Interactive cryptanalysis menu** allows the analyst to iteratively propose substitutions, view partial plaintext, undo incorrect guesses, and auto-propose initial mappings based on letter frequency order. The key is recovered step-by-step by combining frequency analysis, word patterns, and contextual reading of the emerging plaintext.
 
 ---
 

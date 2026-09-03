@@ -247,3 +247,147 @@ void word_frequency_analysis(string ciphertext)
         cout << "No repeated words found.\n";
     }
 }
+
+string get_word_pattern(string word)
+{
+    string pattern = "";
+    char next_symbol = 'A';
+    char assigned[26];
+
+    for (int i = 0; i < 26; i++)
+    {
+        assigned[i] = '\0';
+    }
+
+    for (int i = 0; i < word.length(); i++)
+    {
+        char c = word[i];
+
+        if (c >= 'a' && c <= 'z')
+        {
+            c = c - 'a' + 'A';
+        }
+
+        if (c >= 'A' && c <= 'Z')
+        {
+            int index = c - 'A';
+
+            if (assigned[index] == '\0')
+            {
+                assigned[index] = next_symbol;
+                next_symbol++;
+            }
+
+            pattern += assigned[index];
+        }
+    }
+
+    return pattern;
+}
+
+void pattern_analysis(string ciphertext)
+{
+    vector<string> words = extract_words(ciphertext);
+
+    cout << "\n========================================\n";
+    cout << "         PATTERN ANALYSIS\n";
+    cout << "========================================\n";
+
+    // Find words with repeated letters (doubled letters)
+    cout << "\nWORDS WITH DOUBLED LETTERS\n";
+    cout << "----------------------------------------\n";
+
+    bool found = false;
+
+    for (int i = 0; i < words.size(); i++)
+    {
+        string w = words[i];
+
+        for (int j = 0; j < (int)w.length() - 1; j++)
+        {
+            if (w[j] == w[j + 1])
+            {
+                cout << w << " (position "
+                     << j + 1 << "-" << j + 2 << ": "
+                     << w[j] << w[j] << ")" << endl;
+
+                found = true;
+                break;
+            }
+        }
+    }
+
+    if (!found)
+    {
+        cout << "None\n";
+    }
+
+    // Show letter patterns for words grouped by pattern
+    cout << "\nWORD PATTERNS (letter structure)\n";
+    cout << "----------------------------------------\n";
+
+    map<string, vector<string>> pattern_groups;
+
+    for (int i = 0; i < words.size(); i++)
+    {
+        string pattern = get_word_pattern(words[i]);
+        bool already_listed = false;
+
+        for (int j = 0; j < pattern_groups[pattern].size(); j++)
+        {
+            if (pattern_groups[pattern][j] == words[i])
+            {
+                already_listed = true;
+                break;
+            }
+        }
+
+        if (!already_listed)
+        {
+            pattern_groups[pattern].push_back(words[i]);
+        }
+    }
+
+    // Show patterns that have multiple different words (interesting for cryptanalysis)
+    cout << "\nPatterns shared by multiple distinct words:\n";
+
+    found = false;
+
+    for (auto item : pattern_groups)
+    {
+        if (item.second.size() > 1)
+        {
+            cout << "  Pattern " << item.first << ": ";
+
+            for (int i = 0; i < item.second.size(); i++)
+            {
+                if (i > 0)
+                {
+                    cout << ", ";
+                }
+
+                cout << item.second[i];
+            }
+
+            cout << endl;
+            found = true;
+        }
+    }
+
+    if (!found)
+    {
+        cout << "  None\n";
+    }
+
+    // Show all unique word patterns
+    cout << "\nAll word patterns:\n";
+
+    for (auto item : pattern_groups)
+    {
+        for (int i = 0; i < item.second.size(); i++)
+        {
+            cout << "  " << item.second[i]
+                 << " -> " << item.first << endl;
+        }
+    }
+}
