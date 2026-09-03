@@ -1,70 +1,162 @@
-#include"../include/analysis.h"
-#include<bits/stdc++.h>
+#include "../include/analysis.h"
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <iomanip>
+#include <map>
+
 using namespace std;
 
-void frequency_analysis(string ciphertext){
-    int frequency[26]={0};
-    int total=0;
-    for(char c:ciphertext){
+void frequency_analysis(string ciphertext)
+{
+    int frequency[26] = {0};
+    int total_letters = 0;
+
+    for (int i = 0; i < ciphertext.length(); i++)
+    {
+        char c = ciphertext[i];
+
         if (c >= 'a' && c <= 'z')
+        {
             c = c - 'a' + 'A';
-        if (c >= 'A' && c <= 'Z'){
+        }
+
+        if (c >= 'A' && c <= 'Z')
+        {
             frequency[c - 'A']++;
-            total++;
+            total_letters++;
         }
     }
-    vector<pair<char, int>> result;
-    for (int i = 0; i < 26; i++){
-        result.push_back({'A' + i, frequency[i]});
-    }
-    sort(result.begin(), result.end(),[](pair<char, int> a, pair<char, int> b){
-             return a.second > b.second;
-        });
-    cout << "       LETTER FREQUENCY ANALYSIS\n";
-    cout<<left<<setw(10)<<"Letter"<<setw(10)<<"Count"<< setw(15)<<"Percentage"<<endl;
-    for (auto item : result)
-    {
-        double percentage = 0;
 
-        if (total > 0)
+    vector<pair<char, int>> result;
+
+    for (int i = 0; i < 26; i++)
+    {
+        result.push_back(
+            make_pair(char('A' + i), frequency[i])
+        );
+    }
+
+    sort(
+        result.begin(),
+        result.end(),
+        [](pair<char, int> a, pair<char, int> b)
+        {
+            return a.second > b.second;
+        }
+    );
+
+    cout << "\n========================================\n";
+    cout << "       LETTER FREQUENCY ANALYSIS\n";
+    cout << "========================================\n\n";
+
+    cout << left
+         << setw(10) << "Letter"
+         << setw(10) << "Count"
+         << setw(15) << "Percentage"
+         << endl;
+
+    cout << "----------------------------------------\n";
+
+    for (int i = 0; i < result.size(); i++)
+    {
+        char letter = result[i].first;
+        int count = result[i].second;
+
+        double percentage = 0.0;
+
+        if (total_letters > 0)
         {
             percentage =
-                (item.second * 100.0) / total;
+                (double)count * 100.0 / total_letters;
         }
 
         cout << left
-             << setw(10) << item.first
-             << setw(10) << item.second
+             << setw(10) << letter
+             << setw(10) << count
              << fixed
              << setprecision(2)
              << percentage << "%"
              << endl;
     }
 
-    if (total > 0){
-        cout << "\nMost frequent letters: ";
-        int highest = result[0].second;
-        for (auto item : result){
-            if (item.second == highest)
-                cout << item.first << " ";
+    int highest_frequency = result[0].second;
+
+    cout << "\nMost frequent ciphertext letter(s): ";
+
+    for (int i = 0; i < result.size(); i++)
+    {
+        if (result[i].second == highest_frequency)
+        {
+            cout << result[i].first << " ";
+        }
+    }
+
+    cout << endl;
+
+    cout << "\nTotal letters analyzed: "
+         << total_letters
+         << endl;
+}
+vector<string> extract_words(string text)
+{
+    vector<string> words;
+    string word = "";
+
+    for (int i = 0; i < text.length(); i++)
+    {
+        char c = text[i];
+
+        if (c >= 'a' && c <= 'z')
+        {
+            c = c - 'a' + 'A';
         }
 
-        cout << endl;
+        if (c >= 'A' && c <= 'Z')
+        {
+            word += c;
+        }
+        else
+        {
+            if (!word.empty())
+            {
+                words.push_back(word);
+                word = "";
+            }
+        }
     }
-    cout << "\nEnglish frequency suggestion:\n";
-    cout << "Common plaintext letters: E T A O I N\n";
-}
 
-void word_frequency_analysis(string ciphertext){
-    vector<string> words =extract_words(ciphertext);
-    map<string, int> word_count;
-    for (string word : words){
-        word_count[word]++;
+    if (!word.empty())
+    {
+        words.push_back(word);
     }
+
+    return words;
+}
+void word_frequency_analysis(string ciphertext)
+{
+    vector<string> words =
+        extract_words(ciphertext);
+
+    map<string, int> word_count;
+
+    for (int i = 0; i < words.size(); i++)
+    {
+        word_count[words[i]]++;
+    }
+
+    cout << "\n========================================\n";
     cout << "        WORD FREQUENCY ANALYSIS\n";
+    cout << "========================================\n";
+
     cout << "\nONE-LETTER WORDS\n";
+    cout << "----------------------------------------\n";
+
     bool found = false;
-    for (auto item : word_count){
+
+    for (auto item : word_count)
+    {
         if (item.first.length() == 1)
         {
             cout << item.first
@@ -81,9 +173,11 @@ void word_frequency_analysis(string ciphertext){
         cout << "None\n";
     }
 
-    cout << "\nPossible plaintext letters: A or I\n";
+    cout << "\nPossible plaintext guesses: A or I\n";
+
 
     cout << "\nTWO-LETTER WORDS\n";
+    cout << "----------------------------------------\n";
 
     found = false;
 
@@ -105,8 +199,12 @@ void word_frequency_analysis(string ciphertext){
         cout << "None\n";
     }
 
+
     cout << "\nTHREE-LETTER WORDS\n";
+    cout << "----------------------------------------\n";
+
     found = false;
+
     for (auto item : word_count)
     {
         if (item.first.length() == 3)
@@ -119,12 +217,15 @@ void word_frequency_analysis(string ciphertext){
             found = true;
         }
     }
+
     if (!found)
     {
         cout << "None\n";
     }
 
+
     cout << "\nREPEATED WORDS\n";
+    cout << "----------------------------------------\n";
 
     found = false;
 
@@ -144,75 +245,5 @@ void word_frequency_analysis(string ciphertext){
     if (!found)
     {
         cout << "No repeated words found.\n";
-    }
-}
-
-string get_pattern(string word){
-    int mapping[26];
-    for (int i = 0; i < 26; i++)
-    {
-        mapping[i] = -1;
-    }
-    int next_number = 0;
-    string pattern = "";
-    for (int i = 0; i < word.length(); i++)
-    {
-        int index = word[i] - 'A';
-
-        if (mapping[index] == -1)
-        {
-            mapping[index] = next_number;
-            next_number++;
-        }
-        pattern += to_string(mapping[index]);
-
-        if (i != word.length() - 1)
-        {
-            pattern += "-";
-        }
-    }
-    return pattern;
-}
-
-void pattern_analysis(string ciphertext){
-    vector<string> words =
-        extract_words(ciphertext);
-    map<string, int> pattern_count;
-    map<string, vector<string>> pattern_words;
-    for (string word : words){
-        string pattern =
-            get_pattern(word);
-
-        pattern_count[pattern]++;
-        pattern_words[pattern].push_back(word);
-    }
-    cout << "           PATTERN ANALYSIS\n";
-    cout << "REPEATED PATTERNS\n";
-    bool found = false;
-    for (auto item : pattern_count){
-        if (item.second > 1)
-        {
-            cout << "\nPattern: "
-                 << item.first
-                 << endl;
-
-            cout << "Count: "
-                 << item.second
-                 << endl;
-
-            cout << "Words: ";
-            for (string word :
-                 pattern_words[item.first])
-            {
-                cout << word << " ";
-            }
-            cout << endl;
-
-            found = true;
-        }
-    }
-    if (!found)
-    {
-        cout << "No repeated patterns found.\n";
     }
 }

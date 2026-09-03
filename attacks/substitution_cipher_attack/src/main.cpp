@@ -2,6 +2,7 @@
 
 #include "../include/cipher.h"
 #include "../include/utils.h"
+#include "../include/analysis.h"
 
 using namespace std;
 
@@ -13,10 +14,6 @@ int main()
     if (plaintext.empty())
     {
         cout << "Error: Could not read plaintext file.\n";
-
-        cout << "Make sure the file exists at:\n";
-        cout << "testcases/plaintext.txt\n";
-
         return 1;
     }
 
@@ -25,11 +22,6 @@ int main()
     cout << "====================================\n";
 
     cout << "\nPlaintext loaded successfully.\n";
-
-    cout << "\nFirst 200 characters of plaintext:\n";
-    cout << "------------------------------------\n";
-
-    cout << plaintext.substr(0, 200) << endl;
 
     string key;
 
@@ -41,8 +33,6 @@ int main()
     if (!is_valid_key(key))
     {
         cout << "\nInvalid key!\n";
-        cout << "The key must contain all 26 letters exactly once.\n";
-
         return 1;
     }
 
@@ -51,64 +41,38 @@ int main()
 
     cout << "\nCiphertext generated successfully.\n";
 
-    if (write_file(
+    if (!write_file(
             "outputs/ciphertext.txt",
             ciphertext
         ))
     {
-        cout << "Ciphertext saved to:\n";
-        cout << "outputs/ciphertext.txt\n";
-    }
-    else
-    {
         cout << "Error: Could not save ciphertext.\n";
-
         return 1;
     }
+
+    cout << "Ciphertext saved successfully.\n";
 
     string saved_ciphertext =
         read_file("outputs/ciphertext.txt");
 
     if (saved_ciphertext.empty())
     {
-        cout << "\nError: Could not read ciphertext file.\n";
-
+        cout << "Error: Could not read ciphertext file.\n";
         return 1;
     }
 
-    cout << "\nCiphertext file read successfully.\n";
+    cout << "\n====================================\n";
+    cout << "TESTING FREQUENCY ANALYSIS\n";
+    cout << "====================================\n";
 
-    cout << "\nFirst 200 characters of ciphertext:\n";
-    cout << "------------------------------------\n";
+    frequency_analysis(saved_ciphertext);
 
-    cout << saved_ciphertext.substr(0, 200) << endl;
+    cout << "\n====================================\n";
+    cout << "TESTING WORD FREQUENCY ANALYSIS\n";
+    cout << "====================================\n";
 
-    string decrypted_text =
-        decrypt(saved_ciphertext, key);
-
-    string original_text =
-        convert_to_uppercase(plaintext);
-
-    if (decrypted_text == original_text)
-    {
-        cout << "\n====================================\n";
-        cout << "TEST PASSED\n";
-        cout << "====================================\n";
-
-        cout << "File reading works.\n";
-        cout << "Encryption works.\n";
-        cout << "Ciphertext saving works.\n";
-        cout << "Ciphertext reading works.\n";
-        cout << "Decryption works correctly.\n";
-    }
-    else
-    {
-        cout << "\n====================================\n";
-        cout << "TEST FAILED\n";
-        cout << "====================================\n";
-
-        cout << "Decrypted text does not match plaintext.\n";
-    }
+    frequency_analysis(saved_ciphertext);
+    word_frequency_analysis(saved_ciphertext);
 
     return 0;
 }
