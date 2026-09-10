@@ -1,158 +1,80 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <limits>
 #include "vigenere.h"
+#include "kasiski.h"
+#include "frequency.h"
+
 using namespace std;
 
-map<string, vector<int>> find_repeated_patterns(string ciphertext, int minLength)
+namespace
 {
-    map<string, vector<int>> patterns;
-
-    for (int length = minLength; length <= minLength + 2; length++)
-    {
-        for (int i = 0; i <= ciphertext.length() - length; i++)
-        {
-            string pattern = ciphertext.substr(i, length);
-
-            for (int j = i + length; j <= ciphertext.length() - length; j++)
-            {
-                if (ciphertext.substr(j, length) == pattern)
-                {
-                    patterns[pattern].push_back(i);
-                    patterns[pattern].push_back(j);
-                }
-            }
-        }
-    }
-
-    for (auto &entry : patterns)
-    {
-        vector<int> positions = entry.second;
-
-        sort(positions.begin(), positions.end());
-
-        positions.erase(
-            unique(positions.begin(), positions.end()),
-            positions.end()
-        );
-
-        entry.second = positions;
-    }
-
-    return patterns;
-}
-
-map<string, vector<int>> calculate_distances(
-    map<string, vector<int>> patterns)
+string read_ciphertext(const string &path)
 {
-    map<string, vector<int>> distances;
-
-    for (auto &entry : patterns)
-    {
-        string pattern = entry.first;
-        vector<int> positions = entry.second;
-
-        for (int i = 0; i < positions.size(); i++)
-        {
-            for (int j = i + 1; j < positions.size(); j++)
-            {
-                int distance = positions[j] - positions[i];
-                distances[pattern].push_back(distance);
-            }
-        }
-    }
-
-    return distances;
-}
-
-vector<int> find_factors(int distance)
-{
-    vector<int> factors;
-
-    for (int i = 2; i <= distance; i++)
-    {
-        if (distance % i == 0)
-        {
-            factors.push_back(i);
-        }
-    }
-
-    return factors;
-}
-
-int main()
-{
-    ifstream file("input/ciphertext.txt");
-
-    string text;
-    string line;
-
+    ifstream file(path);
+    string line, text;
     while (getline(file, line))
-    {
         text += line;
+    return clean_ciphertext(text);
+}
+
+double average_ic(const vector<string> &groups)
+{
+    if (groups.empty()) return 0.0;
+    double total = 0.0;
+    for (const string &group : groups) total += calculate_ic(group);
+    return total / groups.size();
+}
+}
+
+int main(int argc, char *argv[])
+{
+    const string input_path = argc > 1 ? argv[1] : "input/ciphertext.txt";
+    string ciphertext = read_ciphertext(input_path);
+    if (ciphertext.empty() && argc == 1)
+        ciphertext = read_ciphertext("classical/vigenere_cryptanalysis/input/ciphertext.txt");
+    if (ciphertext.empty())
+    {
+        cerr << "Unable to read ciphertext. Supply its path as the first argument.\n";
+        return 1;
     }
 
-    string ciphertext = clean_ciphertext(text);
+    cout << "Vigenere Cryptanalysis: Kasiski Examination and Frequency Analysis\n";
+    cout << "Ciphertext length: " << ciphertext.size() << "\n";
 
-    cout << "Ciphertext length: "
-         << ciphertext.length() << endl;
+    vector<int> key_lengths = kasiski_analysis(ciphertext);
 
-    cout << "\nFinding repeated patterns...\n\n";
-
-    map<string, vector<int>> patterns =
-        find_repeated_patterns(ciphertext, 3);
-
-    for (auto &entry : patterns)
+    // IC distinguishes meaningful candidates from coincidental Kasiski factors.
+    int estimated_length = 1;
+    double best_ic = -1.0;
+    for (int length = 1; length <= 20; ++length)
     {
-        cout << "Pattern: " << entry.first << endl;
-
-        cout << "Positions: ";
-
-        for (int position : entry.second)
+        const double ic = average_ic(split_into_groups(ciphertext, length));
+        cout << "IC for length " << setw(2) << length << ": "
+             << fixed << setprecision(4) << ic << '\n';
+        if (ic > best_ic)
         {
-            cout << position << " ";
-        }
-
-        cout << endl;
-    }
-
-    cout << "\nCalculating distances...\n\n";
-
-    map<string, vector<int>> distances =
-        calculate_distances(patterns);
-
-    for (auto &entry : distances)
-    {
-        cout << "Pattern: " << entry.first << endl;
-
-        cout << "Distances: ";
-
-        for (int distance : entry.second)
-        {
-            cout << distance << " ";
-        }
-
-        cout << endl;
-    }
-
-    cout << "\nFactors of distances:\n\n";
-
-    for (auto &entry : distances)
-    {
-        cout << "Pattern: " << entry.first << endl;
-
-        for (int distance : entry.second)
-        {
-            cout << "Distance " << distance << ": ";
-
-            vector<int> factors = find_factors(distance);
-
-            for (int factor : factors)
-            {
-                cout << factor << " ";
-            }
-
-            cout << endl;
+            best_ic = ic;
+            estimated_length = length;
         }
     }
+    cout.unsetf(ios::floatfield);
 
-    return 0;
+    const vector<string> groups = split_into_groups(ciphertext, estimated_length);
+    const string key = find_key(groups);
+    const string plaintext = vigenere_decrypt(ciphertext, key);
+    const bool verified = verify(ciphertext, plaintext, key);
+
+    cout << "\nEstimated key length: " << estimated_length
+         << " (average IC " << fixed << setprecision(4) << best_ic << ")\n";
+    for (size_t i = 0; i < groups.size(); ++i)
+        display_frequency_table(frequency_analysis(groups[i]), static_cast<int>(i + 1));
+
+    cout << "\nRecovered key: " << key << "\n";
+    cout << "Recovered plaintext:\n" << plaintext << "\n";
+    cout << "Verification (re-encryption matches ciphertext): "
+         << (verified ? "PASS" : "FAIL") << '\n';
+
+    return verified ? 0 : 2;
 }

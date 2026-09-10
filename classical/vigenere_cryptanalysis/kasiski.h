@@ -7,12 +7,12 @@
 
 using namespace std;
 
-map<string, vector<int>> find_repeated_patterns(string ciphertext, int minLength);
+vector<string> find_repeated_patterns(string ciphertext);
 
-map<string, vector<int>> calculate_distances(
-    map<string, vector<int>> patterns
-);
+vector<int> calculate_distances(string ciphertext, string pattern);
 
-vector<int> find_factors(int distance);
+map<int, int> find_factors(vector<int> distances);
+
+vector<int> kasiski_analysis(string ciphertext);
 
 #endif

@@ -11,4 +11,6 @@ string vigenere_encrypt(string plaintext, string key);
 
 string vigenere_decrypt(string ciphertext, string key);
 
+bool verify(string ciphertext, string plaintext, string key);
+
 #endif

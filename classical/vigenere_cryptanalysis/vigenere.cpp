@@ -23,9 +23,12 @@ string vigenere_encrypt(string plaintext, string key)
     plaintext = clean_ciphertext(plaintext);
     key = clean_ciphertext(key);
 
+    if (key.empty())
+        return "";
+
     string ciphertext;
 
-    for (int i = 0; i < plaintext.length(); i++)
+    for (size_t i = 0; i < plaintext.length(); i++)
     {
         int p = plaintext[i] - 'A';
         int k = key[i % key.length()] - 'A';
@@ -43,9 +46,12 @@ string vigenere_decrypt(string ciphertext, string key)
     ciphertext = clean_ciphertext(ciphertext);
     key = clean_ciphertext(key);
 
+    if (key.empty())
+        return "";
+
     string plaintext;
 
-    for (int i = 0; i < ciphertext.length(); i++)
+    for (size_t i = 0; i < ciphertext.length(); i++)
     {
         int c = ciphertext[i] - 'A';
         int k = key[i % key.length()] - 'A';
@@ -56,4 +62,9 @@ string vigenere_decrypt(string ciphertext, string key)
     }
 
     return plaintext;
+}
+
+bool verify(string ciphertext, string plaintext, string key)
+{
+    return clean_ciphertext(ciphertext) == vigenere_encrypt(plaintext, key);
 }
