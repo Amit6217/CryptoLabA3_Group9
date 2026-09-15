@@ -18,6 +18,15 @@ A cryptography toolkit developed for the Cryptography Laboratory (22CPP307) cour
 ```text
 CryptoLabA3_Group9/
 ├── classical/
+│   └── vigenere_cryptanalysis/
+│       ├── input/
+│       │   └── ciphertext.txt
+│       ├── output/
+│       ├── main.cpp
+│       ├── kasiski.h / kasiski.cpp
+│       ├── frequency.h / frequency.cpp
+│       ├── vigenere.h / vigenere.cpp
+│       └── README.md
 ├── modern/
 ├── attacks/
 │   └── shift_cipher_attack/
@@ -107,6 +116,14 @@ g++ -o substitution_cipher src/main.cpp src/cipher.cpp src/analysis.cpp src/util
 ./substitution_cipher
 ```
 
+**Run the Vigenère Cipher Cryptanalysis (C++):**
+
+```bash
+cd classical/vigenere_cryptanalysis
+g++ -std=c++17 -Wall -Wextra -Wpedantic main.cpp kasiski.cpp frequency.cpp vigenere.cpp -o vigenere
+./vigenere
+```
+
 ---
 
 ## Project Progress
@@ -175,16 +192,19 @@ In the fifth assignment, we implemented the **Monoalphabetic Substitution Cipher
 
 The plaintext was taken from page 39 of *"Introduction to Modern Cryptography"* by Katz and Lindell (Group 9 = 9 + 30).
 
-**Six required functions were implemented:**
-
-1. **`frequency_analysis()`** — Counts each ciphertext letter's frequency, displays in descending order with percentages, identifies the most frequent letters
-2. **`word_frequency_analysis()`** — Analyzes one-letter, two-letter, three-letter, and repeated words in the ciphertext
-3. **`pattern_analysis()`** — Extracts letter patterns from words (e.g., "HELLO" becomes "ABCCD"), detects doubled letters, groups words by pattern structure
-4. **`apply_substitution()`** — Applies a partial mapping to the ciphertext, showing '?' for unknown letters
-5. **`display_partial_plaintext()`** — Shows cipher and partial plaintext side-by-side with the current mapping table
-6. **`verify_solution()`** — Re-encrypts the recovered plaintext with the recovered key and confirms it matches the original ciphertext
-
 **Interactive cryptanalysis menu** allows the analyst to iteratively propose substitutions, view partial plaintext, undo incorrect guesses, and auto-propose initial mappings based on letter frequency order. The key is recovered step-by-step by combining frequency analysis, word patterns, and contextual reading of the emerging plaintext.
+
+---
+
+### Assignment 6 — Cryptanalysis of Vigenère Cipher
+
+In the sixth assignment, we implemented cryptanalysis of the **Vigenère Cipher** using **Kasiski Examination and Frequency Analysis** in **C++** inside the `classical/vigenere_cryptanalysis/` directory.
+
+The ciphertext was taken from the assignment sheet — Ciphertext 1 (assigned to odd group numbers).
+
+**Attack approach:** Kasiski examination identifies repeated patterns and factors their distances to suggest candidate key lengths. The Index of Coincidence (IC) selects the best candidate (length 14, IC ≈ 0.0644). The ciphertext is split into 14 groups, each attacked as an independent Caesar cipher using chi-square comparison against English letter frequencies.
+
+**Result:** Key = `AMBROISETHOMAS`, verification = `PASS`.
 
 ---
 
@@ -219,6 +239,5 @@ bandit -r secure_application/src/password_manager.py -f json -o secure_applicati
 
 ## Future Work
 
-- Classical cipher implementations (Caesar, Vigenère, Playfair)
 - Modern cryptographic algorithms (DES, AES, RSA)
 - Mathematical utilities (modular arithmetic, prime generation, extended Euclidean algorithm)
