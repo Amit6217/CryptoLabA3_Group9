@@ -28,9 +28,6 @@ For the first block, `C_(i-1)` is the IV. The attacker changes the byte in the p
 
 The attack sends a two-block ciphertext for every guess so the block under attack is always the final block checked by the oracle. The `PaddingOracleAttack` class accepts only an oracle function, so it cannot read or use the secret AES key.
 
-## Security recommendation
-
-Do not expose distinct padding errors or timing differences. Prefer authenticated encryption such as AES-GCM or ChaCha20-Poly1305. If CBC must be used, authenticate the IV and ciphertext with an encrypt-then-MAC construction and verify the MAC before attempting decryption; return one uniform error response for all failures.
 
 ## Files
 
