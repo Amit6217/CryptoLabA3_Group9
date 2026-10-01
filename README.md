@@ -29,6 +29,10 @@ CryptoLabA3_Group9/
 │       └── README.md
 ├── modern/
 ├── attacks/
+│   ├── padding_oracle_attack/
+│   │   ├── src/padding_oracle_attack.py
+│   │   ├── testcases/test_padding_oracle_attack.py
+│   │   └── README.md
 │   └── shift_cipher_attack/
 │       ├── src/
 │       │   ├── shift_cipher.py
@@ -90,8 +94,8 @@ CryptoLabA3_Group9/
 ```bash
 git clone https://github.com/Amit6217/CryptoLabA3_Group9.git
 cd CryptoLabA3_Group9
-pip install -r requirements.txt
-python main.py
+python3 -m pip install -r requirements.txt
+python3 main.py
 ```
 
 **Run the Password Manager:**
@@ -205,6 +209,12 @@ The ciphertext was taken from the assignment sheet — Ciphertext 1 (assigned to
 **Attack approach:** Kasiski examination identifies repeated patterns and factors their distances to suggest candidate key lengths. The Index of Coincidence (IC) selects the best candidate (length 14, IC ≈ 0.0644). The ciphertext is split into 14 groups, each attacked as an independent Caesar cipher using chi-square comparison against English letter frequencies.
 
 **Result:** Key = `AMBROISETHOMAS`, verification = `PASS`.
+
+---
+
+### Assignment 7 — AES-CBC Padding Oracle Attack
+
+The `attacks/padding_oracle_attack/` module demonstrates recovery of AES-CBC plaintext through a boolean PKCS#7 padding oracle. The attack routine has no key access: it modifies the preceding ciphertext block, queries only padding validity, and recovers bytes from right to left. Its README includes the attack explanation, measured-query output instructions, and the production mitigation: authenticated encryption (for example AES-GCM) or encrypt-then-MAC with uniform failures.
 
 ---
 
