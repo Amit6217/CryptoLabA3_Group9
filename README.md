@@ -32,6 +32,8 @@ CryptoLabA3_Group9/
 │   ├── padding_oracle_attack/
 │   │   ├── src/padding_oracle_attack.py
 │   │   ├── testcases/test_padding_oracle_attack.py
+│   │   ├── outputs/results.txt
+│   │   ├── reports/Assignment_7_Report.pdf
 │   │   └── README.md
 │   └── shift_cipher_attack/
 │       ├── src/
@@ -126,6 +128,13 @@ g++ -o substitution_cipher src/main.cpp src/cipher.cpp src/analysis.cpp src/util
 cd classical/vigenere_cryptanalysis
 g++ -std=c++17 -Wall -Wextra -Wpedantic main.cpp kasiski.cpp frequency.cpp vigenere.cpp -o vigenere
 ./vigenere
+```
+
+**Run the AES-CBC Padding Oracle Attack:**
+
+```bash
+cd attacks/padding_oracle_attack/src
+python padding_oracle_attack.py
 ```
 
 ---

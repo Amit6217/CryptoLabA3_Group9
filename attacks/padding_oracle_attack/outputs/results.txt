@@ -1,0 +1,23 @@
+--- Testcase 1 ---
+Original Plaintext : Meet at the library at 7 PM. Bring the cryptography notes.
+Ciphertext (hex)   : 5c13022717a5dfe23fe6cfd0718f558b3f80f30ed279cf9c68b75bacb3a920b897446dcecbd1aa024d9f891f139a325598fadb3024c8be69ae675a447db49082
+IV (hex)           : 38f7fcb9eb8b6d3c0f02f567bf791d1d
+Recovered Plaintext: Meet at the library at 7 PM. Bring the cryptography notes.
+Oracle Queries     : 8706
+Verification       : PASS
+
+--- Testcase 2 ---
+Original Plaintext : Cryptography Laboratory 2026 - Group 9
+Ciphertext (hex)   : 2e38a818c9b1f2f9a7bd4e8328c5746254b8f98d6b91a9d8a2a56f061caad40e1ea5e98aff5f69115ea4dbe8af9b2bd8
+IV (hex)           : 159b8a1d6abd6abbd859fcf75e0563bc
+Recovered Plaintext: Cryptography Laboratory 2026 - Group 9
+Oracle Queries     : 6281
+Verification       : PASS
+
+--- Testcase 3 ---
+Original Plaintext : AES-CBC Padding Oracle Attack Demonstration
+Ciphertext (hex)   : aad5d06012eb4c60004a2f3b36450ad29fce4af5dad56a069e8117fc4b0ef6e42ce1582d8bd2dc84914488f6c8777198
+IV (hex)           : ef6f60a521f9c1c6d3fe4820ac91ed28
+Recovered Plaintext: AES-CBC Padding Oracle Attack Demonstration
+Oracle Queries     : 6376
+Verification       : PASS
