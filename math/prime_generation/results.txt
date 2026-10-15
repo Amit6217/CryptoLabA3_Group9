@@ -1,0 +1,15 @@
+MILLER-RABIN PRIME GENERATION
+==================================================
+
+Assigned bit length: 512
+Generated prime candidate: 12765818858754254621845611389684234026741690817639534247272003683663396808654626300753573221067921847899014476356889520814138396235032026040485168044517883
+Actual bit length: 512
+Number of candidates tested: 142
+Number of Miller-Rabin rounds: 20
+Total execution time: 0.106574 seconds
+
+VERIFICATION
+--------------------------------------------------
+Correct bit length: True
+Passed Miller-Rabin: True
+SymPy primality verification: True
