@@ -1,0 +1,20 @@
+Random Number Assignment
+Descriptive checks only; these results do not establish cryptographic security.
+
+Source: linux_urandom.bin
+Bytes analyzed: 1,048,576
+Distinct byte values: 256 of 256
+Byte counts: min=3,859, max=4,245
+Bit balance: ones=4,195,899 (50.01901%), zeros=4,192,709 (49.98099%)
+Repeated 4-byte windows beyond first occurrences: 117
+Longest run of the same byte: 3
+Adjacent-byte Pearson correlation: 0.000080
+
+Source: openssl_rand.bin
+Bytes analyzed: 1,048,576
+Distinct byte values: 256 of 256
+Byte counts: min=3,947, max=4,345
+Bit balance: ones=4,194,739 (50.00519%), zeros=4,193,869 (49.99481%)
+Repeated 4-byte windows beyond first occurrences: 133
+Longest run of the same byte: 3
+Adjacent-byte Pearson correlation: 0.001062
